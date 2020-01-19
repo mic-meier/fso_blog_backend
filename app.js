@@ -1,4 +1,5 @@
 const config = require("./utils/config");
+
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -14,10 +15,8 @@ const blogSchema = mongoose.Schema({
 
 const Blog = mongoose.model("Blog", blogSchema);
 
-mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
-  .then(() => {
-    console.log("connected to mongodb")
-  });
+const mongoUrl = config.MONGODB_URI;
+mongoose.connect(mongoUrl, { useNewUrlParser: true });
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -35,3 +34,5 @@ app.post("/api/blogs", (request, response) => {
     response.status(201).json(result);
   });
 });
+
+module.exports = app;
